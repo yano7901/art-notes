@@ -20,7 +20,7 @@ body {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     padding: 40px;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1600px;
 }
 
 header {
@@ -77,19 +77,17 @@ header p {
     min-width: fit-content;
 }
 
-.keys {
+/* All Keys Container */
+.white-keys {
     display: flex;
     gap: 0;
-}
-
-/* White Keys */
-.white-keys {
     position: relative;
     z-index: 1;
 }
 
+/* White Keys */
 .white-key {
-    width: 40px;
+    width: 35px;
     height: 200px;
     background: linear-gradient(to bottom, #ffffff, #f5f5f5);
     border: 2px solid #333;
@@ -105,6 +103,8 @@ header p {
     justify-content: center;
     padding-bottom: 8px;
     color: #333;
+    position: relative;
+    z-index: 1;
 }
 
 .white-key:hover {
@@ -119,18 +119,9 @@ header p {
 }
 
 /* Black Keys */
-.black-keys {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    gap: 0;
-    display: flex;
-    pointer-events: none;
-}
-
 .black-key {
-    width: 26px;
+    position: absolute;
+    width: 24px;
     height: 130px;
     background: linear-gradient(to bottom, #000, #1a1a1a);
     border: 2px solid #000;
@@ -141,18 +132,11 @@ header p {
     font-size: 0.6em;
     transition: all 0.1s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    flex-shrink: 0;
-    margin-left: -13px;
-    margin-right: -13px;
-    pointer-events: auto;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    padding-bottom: 6px;
-}
-
-.black-key:first-child {
-    margin-left: 20px;
+    padding-bottom: 5px;
+    z-index: 2;
 }
 
 .black-key:hover {
@@ -165,6 +149,75 @@ header p {
     transform: translateY(2px);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
+
+/* Position black keys between white keys */
+/* C#0 - between C0 and D0 (after 0th white key) */
+[data-note="C#0"] { left: calc((35px * 0) + 35px - 12px); top: 0; }
+/* D#0 - between D0 and E0 (after 1st white key) */
+[data-note="D#0"] { left: calc((35px * 1) + 35px - 12px); top: 0; }
+
+/* E# skip, F# skip (no black keys between E-F, B-C) */
+
+/* Starting from A0 pattern: A, A#, B, C, C#, D, D#, E, F, F#, G, G# */
+/* White keys are: A, B, C, D, E, F, G (7 per octave) */
+/* Black keys are: A#, C#, D#, F#, G# (5 per octave) */
+
+/* A#0 - between A0 and B0 */
+[data-note="A#0"] { left: calc((35px * 0) + 35px - 12px); top: 0; }
+
+/* Octave 1: C1(6), C#1(7), D1(8), D#1(9), E1(10), F1(11), F#1(12), G1(13), G#1(14), A1(15), A#1(16), B1(17) */
+/* C#1 - after C1 (7th in sequence, 1st white) */
+[data-note="C#1"] { left: calc((35px * 1) + 35px - 12px); top: 0; }
+/* D#1 - after D1 (9th, 2nd white) */
+[data-note="D#1"] { left: calc((35px * 2) + 35px - 12px); top: 0; }
+/* F#1 - after F1 (12th, 4th white) */
+[data-note="F#1"] { left: calc((35px * 4) + 35px - 12px); top: 0; }
+/* G#1 - after G1 (13th, 5th white) */
+[data-note="G#1"] { left: calc((35px * 5) + 35px - 12px); top: 0; }
+/* A#1 - after A1 (15th, 6th white) */
+[data-note="A#1"] { left: calc((35px * 6) + 35px - 12px); top: 0; }
+
+/* Octave 2 */
+[data-note="C#2"] { left: calc((35px * 8) + 35px - 12px); top: 0; }
+[data-note="D#2"] { left: calc((35px * 9) + 35px - 12px); top: 0; }
+[data-note="F#2"] { left: calc((35px * 11) + 35px - 12px); top: 0; }
+[data-note="G#2"] { left: calc((35px * 12) + 35px - 12px); top: 0; }
+[data-note="A#2"] { left: calc((35px * 13) + 35px - 12px); top: 0; }
+
+/* Octave 3 */
+[data-note="C#3"] { left: calc((35px * 15) + 35px - 12px); top: 0; }
+[data-note="D#3"] { left: calc((35px * 16) + 35px - 12px); top: 0; }
+[data-note="F#3"] { left: calc((35px * 18) + 35px - 12px); top: 0; }
+[data-note="G#3"] { left: calc((35px * 19) + 35px - 12px); top: 0; }
+[data-note="A#3"] { left: calc((35px * 20) + 35px - 12px); top: 0; }
+
+/* Octave 4 */
+[data-note="C#4"] { left: calc((35px * 22) + 35px - 12px); top: 0; }
+[data-note="D#4"] { left: calc((35px * 23) + 35px - 12px); top: 0; }
+[data-note="F#4"] { left: calc((35px * 25) + 35px - 12px); top: 0; }
+[data-note="G#4"] { left: calc((35px * 26) + 35px - 12px); top: 0; }
+[data-note="A#4"] { left: calc((35px * 27) + 35px - 12px); top: 0; }
+
+/* Octave 5 */
+[data-note="C#5"] { left: calc((35px * 29) + 35px - 12px); top: 0; }
+[data-note="D#5"] { left: calc((35px * 30) + 35px - 12px); top: 0; }
+[data-note="F#5"] { left: calc((35px * 32) + 35px - 12px); top: 0; }
+[data-note="G#5"] { left: calc((35px * 33) + 35px - 12px); top: 0; }
+[data-note="A#5"] { left: calc((35px * 34) + 35px - 12px); top: 0; }
+
+/* Octave 6 */
+[data-note="C#6"] { left: calc((35px * 36) + 35px - 12px); top: 0; }
+[data-note="D#6"] { left: calc((35px * 37) + 35px - 12px); top: 0; }
+[data-note="F#6"] { left: calc((35px * 39) + 35px - 12px); top: 0; }
+[data-note="G#6"] { left: calc((35px * 40) + 35px - 12px); top: 0; }
+[data-note="A#6"] { left: calc((35px * 41) + 35px - 12px); top: 0; }
+
+/* Octave 7 */
+[data-note="C#7"] { left: calc((35px * 43) + 35px - 12px); top: 0; }
+[data-note="D#7"] { left: calc((35px * 44) + 35px - 12px); top: 0; }
+[data-note="F#7"] { left: calc((35px * 46) + 35px - 12px); top: 0; }
+[data-note="G#7"] { left: calc((35px * 47) + 35px - 12px); top: 0; }
+[data-note="A#7"] { left: calc((35px * 48) + 35px - 12px); top: 0; }
 
 /* Info Section */
 .info {
@@ -205,7 +258,7 @@ header p {
     }
 
     .white-key {
-        width: 30px;
+        width: 28px;
         height: 150px;
         font-size: 0.6em;
     }
