@@ -171,10 +171,9 @@ function playNote(frequency, noteName) {
 // Generate piano keys with proper layout
 function generatePianoKeys() {
     const keysContainer = document.getElementById('whiteKeysContainer');
-    const pianoContainer = document.querySelector('.piano');
     
     // Create all keys in order (white and black mixed)
-    pianoNotes.forEach((noteData, index) => {
+    pianoNotes.forEach((noteData) => {
         const button = document.createElement('button');
         button.className = `key ${noteData.isBlack ? 'black-key' : 'white-key'}`;
         button.setAttribute('data-note', noteData.note);
@@ -215,5 +214,5 @@ document.addEventListener('keydown', (e) => {
 // Generate the piano when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     generatePianoKeys();
-    console.log('Art Notes 88-key piano is ready!');
+    console.log('Art Notes 88-key piano is ready! Starting from A0 to C8');
 });
