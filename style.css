@@ -94,7 +94,7 @@ header p {
     border-radius: 0 0 8px 8px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 0.7em;
+    font-size: 0.65em;
     transition: all 0.1s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     flex-shrink: 0;
@@ -104,7 +104,6 @@ header p {
     padding-bottom: 8px;
     color: #333;
     position: relative;
-    z-index: 1;
 }
 
 .white-key:hover {
@@ -118,7 +117,7 @@ header p {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Black Keys */
+/* Black Keys - positioned absolutely */
 .black-key {
     position: absolute;
     width: 24px;
@@ -129,7 +128,7 @@ header p {
     cursor: pointer;
     color: white;
     font-weight: bold;
-    font-size: 0.6em;
+    font-size: 0.55em;
     transition: all 0.1s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     display: flex;
@@ -137,6 +136,7 @@ header p {
     justify-content: center;
     padding-bottom: 5px;
     z-index: 2;
+    top: 0;
 }
 
 .black-key:hover {
@@ -150,74 +150,58 @@ header p {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
-/* Position black keys between white keys */
-/* C#0 - between C0 and D0 (after 0th white key) */
-[data-note="C#0"] { left: calc((35px * 0) + 35px - 12px); top: 0; }
-/* D#0 - between D0 and E0 (after 1st white key) */
-[data-note="D#0"] { left: calc((35px * 1) + 35px - 12px); top: 0; }
+/* Position each black key between white keys */
+/* Each octave: C D E F G A B (white) with C# D# _ F# G# A# _ (black) */
+/* Pattern: after position 0 (C), 1 (D), skip E, 2 (F), 3 (G), 4 (A), skip B */
 
-/* E# skip, F# skip (no black keys between E-F, B-C) */
+/* Octave 0: A, A#, B */
+[data-note="A#0"] { left: calc((35px * 0) + 18px); }
 
-/* Starting from A0 pattern: A, A#, B, C, C#, D, D#, E, F, F#, G, G# */
-/* White keys are: A, B, C, D, E, F, G (7 per octave) */
-/* Black keys are: A#, C#, D#, F#, G# (5 per octave) */
+/* Octave 1-7: Standard pattern repeating every 7 white keys */
+/* C#: after position 0 */
+[data-note="C#1"] { left: calc((35px * 0) + 18px); }
+[data-note="C#2"] { left: calc((35px * 7) + 18px); }
+[data-note="C#3"] { left: calc((35px * 14) + 18px); }
+[data-note="C#4"] { left: calc((35px * 21) + 18px); }
+[data-note="C#5"] { left: calc((35px * 28) + 18px); }
+[data-note="C#6"] { left: calc((35px * 35) + 18px); }
+[data-note="C#7"] { left: calc((35px * 42) + 18px); }
 
-/* A#0 - between A0 and B0 */
-[data-note="A#0"] { left: calc((35px * 0) + 35px - 12px); top: 0; }
+/* D#: after position 1 */
+[data-note="D#1"] { left: calc((35px * 1) + 18px); }
+[data-note="D#2"] { left: calc((35px * 8) + 18px); }
+[data-note="D#3"] { left: calc((35px * 15) + 18px); }
+[data-note="D#4"] { left: calc((35px * 22) + 18px); }
+[data-note="D#5"] { left: calc((35px * 29) + 18px); }
+[data-note="D#6"] { left: calc((35px * 36) + 18px); }
+[data-note="D#7"] { left: calc((35px * 43) + 18px); }
 
-/* Octave 1: C1(6), C#1(7), D1(8), D#1(9), E1(10), F1(11), F#1(12), G1(13), G#1(14), A1(15), A#1(16), B1(17) */
-/* C#1 - after C1 (7th in sequence, 1st white) */
-[data-note="C#1"] { left: calc((35px * 1) + 35px - 12px); top: 0; }
-/* D#1 - after D1 (9th, 2nd white) */
-[data-note="D#1"] { left: calc((35px * 2) + 35px - 12px); top: 0; }
-/* F#1 - after F1 (12th, 4th white) */
-[data-note="F#1"] { left: calc((35px * 4) + 35px - 12px); top: 0; }
-/* G#1 - after G1 (13th, 5th white) */
-[data-note="G#1"] { left: calc((35px * 5) + 35px - 12px); top: 0; }
-/* A#1 - after A1 (15th, 6th white) */
-[data-note="A#1"] { left: calc((35px * 6) + 35px - 12px); top: 0; }
+/* F#: after position 3 (F is 2nd, so position 3 = F) */
+[data-note="F#1"] { left: calc((35px * 3) + 18px); }
+[data-note="F#2"] { left: calc((35px * 10) + 18px); }
+[data-note="F#3"] { left: calc((35px * 17) + 18px); }
+[data-note="F#4"] { left: calc((35px * 24) + 18px); }
+[data-note="F#5"] { left: calc((35px * 31) + 18px); }
+[data-note="F#6"] { left: calc((35px * 38) + 18px); }
+[data-note="F#7"] { left: calc((35px * 45) + 18px); }
 
-/* Octave 2 */
-[data-note="C#2"] { left: calc((35px * 8) + 35px - 12px); top: 0; }
-[data-note="D#2"] { left: calc((35px * 9) + 35px - 12px); top: 0; }
-[data-note="F#2"] { left: calc((35px * 11) + 35px - 12px); top: 0; }
-[data-note="G#2"] { left: calc((35px * 12) + 35px - 12px); top: 0; }
-[data-note="A#2"] { left: calc((35px * 13) + 35px - 12px); top: 0; }
+/* G#: after position 4 */
+[data-note="G#1"] { left: calc((35px * 4) + 18px); }
+[data-note="G#2"] { left: calc((35px * 11) + 18px); }
+[data-note="G#3"] { left: calc((35px * 18) + 18px); }
+[data-note="G#4"] { left: calc((35px * 25) + 18px); }
+[data-note="G#5"] { left: calc((35px * 32) + 18px); }
+[data-note="G#6"] { left: calc((35px * 39) + 18px); }
+[data-note="G#7"] { left: calc((35px * 46) + 18px); }
 
-/* Octave 3 */
-[data-note="C#3"] { left: calc((35px * 15) + 35px - 12px); top: 0; }
-[data-note="D#3"] { left: calc((35px * 16) + 35px - 12px); top: 0; }
-[data-note="F#3"] { left: calc((35px * 18) + 35px - 12px); top: 0; }
-[data-note="G#3"] { left: calc((35px * 19) + 35px - 12px); top: 0; }
-[data-note="A#3"] { left: calc((35px * 20) + 35px - 12px); top: 0; }
-
-/* Octave 4 */
-[data-note="C#4"] { left: calc((35px * 22) + 35px - 12px); top: 0; }
-[data-note="D#4"] { left: calc((35px * 23) + 35px - 12px); top: 0; }
-[data-note="F#4"] { left: calc((35px * 25) + 35px - 12px); top: 0; }
-[data-note="G#4"] { left: calc((35px * 26) + 35px - 12px); top: 0; }
-[data-note="A#4"] { left: calc((35px * 27) + 35px - 12px); top: 0; }
-
-/* Octave 5 */
-[data-note="C#5"] { left: calc((35px * 29) + 35px - 12px); top: 0; }
-[data-note="D#5"] { left: calc((35px * 30) + 35px - 12px); top: 0; }
-[data-note="F#5"] { left: calc((35px * 32) + 35px - 12px); top: 0; }
-[data-note="G#5"] { left: calc((35px * 33) + 35px - 12px); top: 0; }
-[data-note="A#5"] { left: calc((35px * 34) + 35px - 12px); top: 0; }
-
-/* Octave 6 */
-[data-note="C#6"] { left: calc((35px * 36) + 35px - 12px); top: 0; }
-[data-note="D#6"] { left: calc((35px * 37) + 35px - 12px); top: 0; }
-[data-note="F#6"] { left: calc((35px * 39) + 35px - 12px); top: 0; }
-[data-note="G#6"] { left: calc((35px * 40) + 35px - 12px); top: 0; }
-[data-note="A#6"] { left: calc((35px * 41) + 35px - 12px); top: 0; }
-
-/* Octave 7 */
-[data-note="C#7"] { left: calc((35px * 43) + 35px - 12px); top: 0; }
-[data-note="D#7"] { left: calc((35px * 44) + 35px - 12px); top: 0; }
-[data-note="F#7"] { left: calc((35px * 46) + 35px - 12px); top: 0; }
-[data-note="G#7"] { left: calc((35px * 47) + 35px - 12px); top: 0; }
-[data-note="A#7"] { left: calc((35px * 48) + 35px - 12px); top: 0; }
+/* A#: after position 5 */
+[data-note="A#1"] { left: calc((35px * 5) + 18px); }
+[data-note="A#2"] { left: calc((35px * 12) + 18px); }
+[data-note="A#3"] { left: calc((35px * 19) + 18px); }
+[data-note="A#4"] { left: calc((35px * 26) + 18px); }
+[data-note="A#5"] { left: calc((35px * 33) + 18px); }
+[data-note="A#6"] { left: calc((35px * 40) + 18px); }
+[data-note="A#7"] { left: calc((35px * 47) + 18px); }
 
 /* Info Section */
 .info {
