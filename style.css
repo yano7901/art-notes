@@ -19,8 +19,8 @@ body {
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     padding: 40px;
-    max-width: 900px;
     width: 100%;
+    max-width: 1400px;
 }
 
 header {
@@ -67,18 +67,19 @@ header p {
     display: flex;
     justify-content: center;
     margin-bottom: 40px;
+    overflow-x: auto;
+    padding: 20px 0;
 }
 
 .piano {
     position: relative;
-    width: 100%;
-    max-width: 700px;
+    display: inline-block;
+    min-width: fit-content;
 }
 
 .keys {
     display: flex;
     gap: 0;
-    justify-content: center;
 }
 
 /* White Keys */
@@ -88,16 +89,22 @@ header p {
 }
 
 .white-key {
-    width: 60px;
-    height: 250px;
+    width: 40px;
+    height: 200px;
     background: linear-gradient(to bottom, #ffffff, #f5f5f5);
     border: 2px solid #333;
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 8px 8px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 1em;
+    font-size: 0.7em;
     transition: all 0.1s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 8px;
+    color: #333;
 }
 
 .white-key:hover {
@@ -115,30 +122,37 @@ header p {
 .black-keys {
     position: absolute;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     z-index: 2;
     gap: 0;
-    width: 100%;
     display: flex;
-    justify-content: center;
     pointer-events: none;
 }
 
 .black-key {
-    width: 40px;
-    height: 160px;
+    width: 26px;
+    height: 130px;
     background: linear-gradient(to bottom, #000, #1a1a1a);
     border: 2px solid #000;
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 6px 6px;
     cursor: pointer;
     color: white;
     font-weight: bold;
-    font-size: 0.9em;
+    font-size: 0.6em;
     transition: all 0.1s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    margin: 0 -20px;
+    flex-shrink: 0;
+    margin-left: -13px;
+    margin-right: -13px;
     pointer-events: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 6px;
+}
+
+.black-key:first-child {
+    margin-left: 20px;
 }
 
 .black-key:hover {
@@ -191,14 +205,14 @@ header p {
     }
 
     .white-key {
-        width: 45px;
-        height: 180px;
-        font-size: 0.85em;
+        width: 30px;
+        height: 150px;
+        font-size: 0.6em;
     }
 
     .black-key {
-        width: 30px;
-        height: 120px;
-        font-size: 0.75em;
+        width: 20px;
+        height: 100px;
+        font-size: 0.5em;
     }
 }
