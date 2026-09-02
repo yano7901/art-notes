@@ -107,14 +107,6 @@ header p {
     overflow: visible;
 }
 
-.white-key {
-    margin-left: -40px;
-}
-
-.white-key:first-child {
-    margin-left: 0;
-}
-
 .white-key:hover {
     background: linear-gradient(to bottom, #f9f9f9, #efefef);
     transform: translateY(-2px);
@@ -125,6 +117,18 @@ header p {
     transform: translateY(2px);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+/* White key label positioning - display the natural note name */
+/* Pattern repeats every 7 white keys: C, D, E, F, G, A, B */
+.white-key:nth-child(1n) { --label-index: 0; }
+
+[data-note*="C"]:not([data-note*="#"]) { --label: "C"; }
+[data-note*="D"]:not([data-note*="#"]) { --label: "D"; }
+[data-note*="E"]:not([data-note*="#"]) { --label: "E"; }
+[data-note*="F"]:not([data-note*="#"]) { --label: "F"; }
+[data-note*="G"]:not([data-note*="#"]) { --label: "G"; }
+[data-note*="A"]:not([data-note*="#"]) { --label: "A"; }
+[data-note*="B"]:not([data-note*="#"]) { --label: "B"; }
 
 /* Black Keys - positioned absolutely over white keys */
 .black-key {
