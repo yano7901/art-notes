@@ -118,17 +118,25 @@ header p {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* White key label positioning - display the natural note name */
-/* Pattern repeats every 7 white keys: C, D, E, F, G, A, B */
-.white-key:nth-child(1n) { --label-index: 0; }
+/* Shift white key labels to the left key */
+.white-key::before {
+    content: attr(data-label);
+    position: absolute;
+    width: 40px;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 10px;
+    left: -40px;
+    font-weight: bold;
+    font-size: 0.7em;
+    color: #333;
+}
 
-[data-note*="C"]:not([data-note*="#"]) { --label: "C"; }
-[data-note*="D"]:not([data-note*="#"]) { --label: "D"; }
-[data-note*="E"]:not([data-note*="#"]) { --label: "E"; }
-[data-note*="F"]:not([data-note*="#"]) { --label: "F"; }
-[data-note*="G"]:not([data-note*="#"]) { --label: "G"; }
-[data-note*="A"]:not([data-note*="#"]) { --label: "A"; }
-[data-note*="B"]:not([data-note*="#"]) { --label: "B"; }
+.white-key {
+    color: transparent;
+}
 
 /* Black Keys - positioned absolutely over white keys */
 .black-key {
