@@ -165,11 +165,6 @@ function getDisplayLabel(noteName, isBlack) {
     }
 }
 
-// Function to find the note index by name
-function findNoteIndex(noteName) {
-    return pianoNotes.findIndex(note => note.note === noteName);
-}
-
 // Handle key press
 function playNote(frequency, noteName) {
     // Play the sound
@@ -208,12 +203,16 @@ function generatePianoKeys() {
             let noteToPlay = noteData.note;
             let freqToPlay = noteData.freq;
             
-            // For white keys, play the note shown by the label (which is one key to the left)
+            // For white keys, play the previous white key (skip black keys)
             if (!noteData.isBlack && index > 0) {
-                // Get the previous note in the array
-                const prevNote = pianoNotes[index - 1];
-                noteToPlay = prevNote.note;
-                freqToPlay = prevNote.freq;
+                // Search backwards for the previous white key
+                for (let i = index - 1; i >= 0; i--) {
+                    if (!pianoNotes[i].isBlack) {
+                        noteToPlay = pianoNotes[i].note;
+                        freqToPlay = pianoNotes[i].freq;
+                        break;
+                    }
+                }
             }
             
             playNote(freqToPlay, noteToPlay);
