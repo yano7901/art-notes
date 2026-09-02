@@ -154,6 +154,17 @@ function hslToRgb(h, s, l) {
     return `rgb(${r}, ${g}, ${b})`;
 }
 
+// Function to get display label for a note
+function getDisplayLabel(noteName, isBlack) {
+    if (isBlack) {
+        // For black keys, show the full note name with both flats and sharps
+        return noteName;
+    } else {
+        // For white keys, show only the natural note letter (C, D, E, F, G, A, B)
+        return noteName.charAt(0);
+    }
+}
+
 // Handle key press
 function playNote(frequency, noteName) {
     // Play the sound
@@ -179,7 +190,10 @@ function generatePianoKeys() {
         button.setAttribute('data-note', noteData.note);
         button.setAttribute('data-freq', noteData.freq);
         button.setAttribute('data-black', noteData.isBlack);
-        button.textContent = noteData.note;
+        
+        // Use display label for white keys, full name for black keys
+        const displayLabel = getDisplayLabel(noteData.note, noteData.isBlack);
+        button.textContent = displayLabel;
         
         button.addEventListener('click', () => {
             playNote(noteData.freq, noteData.note);
