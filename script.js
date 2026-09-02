@@ -165,6 +165,11 @@ function getDisplayLabel(noteName, isBlack) {
     }
 }
 
+// Function to find the note index by name
+function findNoteIndex(noteName) {
+    return pianoNotes.findIndex(note => note.note === noteName);
+}
+
 // Handle key press
 function playNote(frequency, noteName) {
     // Play the sound
@@ -184,12 +189,13 @@ function generatePianoKeys() {
     const keysContainer = document.getElementById('whiteKeysContainer');
     
     // Create all keys in order (white and black mixed)
-    pianoNotes.forEach((noteData) => {
+    pianoNotes.forEach((noteData, index) => {
         const button = document.createElement('button');
         button.className = `key ${noteData.isBlack ? 'black-key' : 'white-key'}`;
         button.setAttribute('data-note', noteData.note);
         button.setAttribute('data-freq', noteData.freq);
         button.setAttribute('data-black', noteData.isBlack);
+        button.setAttribute('data-index', index);
         
         // Use display label for white keys, full name for black keys
         const displayLabel = getDisplayLabel(noteData.note, noteData.isBlack);
@@ -199,7 +205,18 @@ function generatePianoKeys() {
         button.setAttribute('data-label', displayLabel);
         
         button.addEventListener('click', () => {
-            playNote(noteData.freq, noteData.note);
+            let noteToPlay = noteData.note;
+            let freqToPlay = noteData.freq;
+            
+            // For white keys, play the note shown by the label (which is one key to the left)
+            if (!noteData.isBlack && index > 0) {
+                // Get the previous note in the array
+                const prevNote = pianoNotes[index - 1];
+                noteToPlay = prevNote.note;
+                freqToPlay = prevNote.freq;
+            }
+            
+            playNote(freqToPlay, noteToPlay);
             button.style.opacity = '0.7';
             setTimeout(() => {
                 button.style.opacity = '1';
