@@ -195,6 +195,9 @@ function generatePianoKeys() {
         const displayLabel = getDisplayLabel(noteData.note, noteData.isBlack);
         button.textContent = displayLabel;
         
+        // Add data-label attribute for CSS pseudo-element
+        button.setAttribute('data-label', displayLabel);
+        
         button.addEventListener('click', () => {
             playNote(noteData.freq, noteData.note);
             button.style.opacity = '0.7';
