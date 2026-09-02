@@ -154,18 +154,7 @@ function hslToRgb(h, s, l) {
     return `rgb(${r}, ${g}, ${b})`;
 }
 
-// Function to get display label for a note
-function getDisplayLabel(noteName, isBlack) {
-    if (isBlack) {
-        // For black keys, show the full note name with both flats and sharps
-        return noteName;
-    } else {
-        // For white keys, show only the natural note letter (C, D, E, F, G, A, B)
-        return noteName.charAt(0);
-    }
-}
-
-// Handle key press
+// Handle note playback
 function playNote(frequency, noteName) {
     // Play the sound
     synth.triggerAttackRelease(frequency, '0.5');
@@ -179,54 +168,121 @@ function playNote(frequency, noteName) {
     noteLabel.textContent = `${noteName} - ${color}`;
 }
 
-// Generate piano keys with proper layout
+// Generate piano keyboard
 function generatePianoKeys() {
     const keysContainer = document.getElementById('whiteKeysContainer');
+    const piano = document.querySelector('.piano');
     
-    // Create all keys in order (white and black mixed)
-    pianoNotes.forEach((noteData, index) => {
+    // Create white keys
+    const whiteKeys = pianoNotes.filter(note => !note.isBlack);
+    
+    // Add white keys to DOM
+    whiteKeys.forEach((noteData) => {
         const button = document.createElement('button');
-        button.className = `key ${noteData.isBlack ? 'black-key' : 'white-key'}`;
+        button.className = 'white-key';
+        button.textContent = noteData.note.charAt(0); // Display just the letter (C, D, E, etc.)
         button.setAttribute('data-note', noteData.note);
         button.setAttribute('data-freq', noteData.freq);
-        button.setAttribute('data-black', noteData.isBlack);
-        button.setAttribute('data-index', index);
         
-        // Use display label for white keys, full name for black keys
-        const displayLabel = getDisplayLabel(noteData.note, noteData.isBlack);
-        button.textContent = displayLabel;
-        
-        // Add data-label attribute for CSS pseudo-element
-        button.setAttribute('data-label', displayLabel);
-        
+        // Direct click handler - plays this key's note
         button.addEventListener('click', () => {
-            let noteToPlay = noteData.note;
-            let freqToPlay = noteData.freq;
-            
-            // For white keys, play the previous white key (skip black keys)
-            if (!noteData.isBlack && index > 0) {
-                // Search backwards for the previous white key
-                for (let i = index - 1; i >= 0; i--) {
-                    if (!pianoNotes[i].isBlack) {
-                        noteToPlay = pianoNotes[i].note;
-                        freqToPlay = pianoNotes[i].freq;
-                        break;
-                    }
-                }
-            }
-            
-            playNote(freqToPlay, noteToPlay);
+            playNote(noteData.freq, noteData.note);
             button.style.opacity = '0.7';
             setTimeout(() => {
                 button.style.opacity = '1';
             }, 100);
         });
         
+        // Touch handler
+        button.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            playNote(noteData.freq, noteData.note);
+            button.style.opacity = '0.7';
+        });
+        
+        button.addEventListener('touchend', () => {
+            button.style.opacity = '1';
+        });
+        
         keysContainer.appendChild(button);
+    });
+    
+    // Create black keys overlay
+    const blackKeysOverlay = document.createElement('div');
+    blackKeysOverlay.className = 'black-keys-overlay';
+    piano.appendChild(blackKeysOverlay);
+    
+    // Add black keys with proper positioning
+    const blackKeys = pianoNotes.filter(note => note.isBlack);
+    
+    blackKeys.forEach((noteData) => {
+        const button = document.createElement('button');
+        button.className = 'black-key';
+        button.textContent = noteData.note;
+        button.setAttribute('data-note', noteData.note);
+        button.setAttribute('data-freq', noteData.freq);
+        
+        // Calculate left position based on which white key comes before this black key
+        // Black keys appear between: C-D, D-E, F-G, G-A, A-B (not between E-F or B-C)
+        const noteName = noteData.note;
+        const noteOctave = parseInt(noteName.slice(1));
+        const noteBase = noteName.charAt(0);
+        
+        // Find the white key that this black key follows
+        let whiteKeysBefore = 0;
+        
+        for (const whiteKey of whiteKeys) {
+            const wkOctave = parseInt(whiteKey.note.slice(1));
+            const wkBase = whiteKey.note.charAt(0);
+            
+            if (wkOctave < noteOctave) {
+                whiteKeysBefore++;
+            } else if (wkOctave === noteOctave) {
+                const whiteOrder = { 'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6 };
+                const blackOrder = { 'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6 };
+                
+                if (whiteOrder[wkBase] < blackOrder[noteBase]) {
+                    whiteKeysBefore++;
+                } else if (whiteOrder[wkBase] === blackOrder[noteBase]) {
+                    // This shouldn't happen for valid black keys
+                    break;
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+        
+        // Position: white key index * 60px (white key width) + 10px (offset to center black key)
+        const leftPosition = whiteKeysBefore * 60 + 10;
+        button.style.left = leftPosition + 'px';
+        
+        // Direct click handler - plays this key's note
+        button.addEventListener('click', () => {
+            playNote(noteData.freq, noteData.note);
+            button.style.opacity = '0.7';
+            setTimeout(() => {
+                button.style.opacity = '1';
+            }, 100);
+        });
+        
+        // Touch handler
+        button.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            playNote(noteData.freq, noteData.note);
+            button.style.opacity = '0.7';
+        });
+        
+        button.addEventListener('touchend', () => {
+            button.style.opacity = '1';
+        });
+        
+        blackKeysOverlay.appendChild(button);
     });
 }
 
-// Initialize keyboard support
+// Keyboard support
 const keyboardMap = {
     'z': 'C4', 'x': 'D4', 'c': 'E4', 'v': 'F4', 'b': 'G4', 'n': 'A4', 'm': 'B4',
     's': 'C#4', 'd': 'D#4', 'g': 'F#4', 'h': 'G#4', 'j': 'A#4'
@@ -236,10 +292,9 @@ document.addEventListener('keydown', (e) => {
     const key = e.key.toLowerCase();
     if (keyboardMap[key]) {
         const noteName = keyboardMap[key];
-        const noteButton = document.querySelector(`[data-note="${noteName}"]`);
-        if (noteButton) {
-            const freq = parseFloat(noteButton.getAttribute('data-freq'));
-            playNote(freq, noteName);
+        const noteData = pianoNotes.find(n => n.note === noteName);
+        if (noteData) {
+            playNote(noteData.freq, noteData.note);
         }
     }
 });
